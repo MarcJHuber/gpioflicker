@@ -1,0 +1,68 @@
+.\" Copyright (C) 2004-2006 Marc Huber
+.\"
+.\" Permission to use, copy, modify, and distribute this software for any
+.\" purpose with or without fee is hereby granted, provided that the above
+.\" copyright notice and this permission notice appear in all copies.
+.\"
+.\" THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+.\" WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+.\" MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+.\" ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+.\" WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+.\" ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
+.\" OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+.\"
+.\" $Id: gpioflicker.8,v 1.1 2005/07/30 20:58:15 root Exp root $
+.\"
+.TH "GPIOFLICKER" "8" "Mar 26, 2006" "" ""
+.SH NAME
+gpioflicker \- link GPIO pin state to network input
+.SH SYNOPSIS
+.sp
+\fBgpioflicker\fR [ \fB-frP\fR ] [ \fB-nrP\fR ] [ \fB-d \fIdevice\fB\fR ] [ \fB-p \fIpin\fB\fR ] [ \fB-i \fIinterface\fB\fR ] [ \fB-t \fImilliseconds\fB\fR ] [ \fB-B \fIbasename\fB\fR ] [ \fB-I \fIinitial_state\fB\fR ] 
+.SH "DESCRIPTION"
+.PP
+\fBgpioflicker\fR
+changes the state of a GPIO pin on startup, on reception of a
+signal, or whenever a packet arrives on a network interface.
+A popular application is to flash GPIO-connected LEDs on
+firewall systems when packets are blocked.
+.PP
+The default values are suitable for a Soekris Net4501.
+.PP
+The \fB-f\fR (foreground) option keeps \fBgpioflicker\fR from
+daemonizing itself. Without this option, it will silently detach
+itself from the controlling terminal and run in the background.
+.PP
+The \fB-n\fR (non-blocking) option keeps \fBgpioflicker\fR from
+monopolizing the GPIO device. Standard behavior is to keep the
+device open permanently, but with this option it will only be
+opened to perform one single \fBioctl\fR call, and then closed
+immediately. This gives other programs a chance to do their own
+GPIO operations, but may result in inconsistent GPIO states,
+because \fBgpioflicker\fR ignores both modifications done by others
+and failures opening the GPIO device.
+.PP
+The \fB-r\fR (reverse) option inverts the GPIO pin behavior.
+Use this on systems where enabling a GPIO pin disables the
+connected LED (and disabling the pin enables it).
+.PP
+When the \fB-P\fR (pidfile) option is used, \fBgpioflicker\fR will
+write its process ID to \fI/var/run/gpioflicker.pid\fR. The
+\fIgpioflicker\fR part of that filename may be set by using the 
+\fB-B\fR (basename) option (which implies \fB-P\fR).
+.PP
+The \fB-d\fR and \fB-p\fR options allow for selecting
+GPIO device (default: \fI/dev/gpio0\fR) and pin (default: 9).
+.PP
+The \fB-t\fR option sets the number of milliseconds the GPIO pin
+should be kept active. This defaults to 100.
+.PP
+The \fB-I\fR option sets the initial pin state. A value of 0
+deactivates the pin, a value of 1 activates it.
+.SH "SIGNALS"
+.PP
+\fBUSR1\fR activates the GPIO pin, \fBUSR2\fR deacticates it.
+.SH "SEE ALSO"
+.PP
+\fBgpioctl\fR(8).

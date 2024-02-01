@@ -1,0 +1,12 @@
+20040613	initial version
+20040614	check poll(2) for errors
+20040702	SIGUSR1 activates, SIGUSER2 deactivates gpio pin
+20040703	added "-I" switch
+20050729	added man page
+20050731	added "-r" switch to support inverted LED logic on WRAP devices
+		(proposed by Johan Fredin <johan@spelaroll.se>)
+		bump version number to 0.2
+20060326	added "-n" switch to keep gpioflicker from permanently occupying
+		the GPIO device (proposed by William MacKay <foobaz@gmail.com>)
+		bump version number to 0.3
+

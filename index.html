@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<HTML>
+<HEAD>
+<META NAME="keywords" CONTENT="openbsd, soekris, gpio, pflog0">
+<META NAME=viewport CONTENT="width=device-width, initial-scale=1">
+<TITLE>Blinkenlights</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+<link rel=stylesheet type="text/css" href="/style.css">
+</HEAD>
+<BODY>
+<H1>Blinkenlights</H1>
+<H2>Exploiting your Net4501 Error LED</H2>
+<P>
+Well, there you have your Soekris box, running 
+<A HREF="http://www.openbsd.org/" class="open"><U class="open">Open</U><U class=
+"bsd">BSD</U></A>
+<tt>-current</tt>,
+with GPIO drivers enabled, and the Error LED is still idle? Don't despair:
+Here's about the most useless application you may ever find:
+<H3>gpioflicker</H3>
+On the Net4501, this small giveaway lets the Error LED flash whenever
+<tt>pf</tt> logs something to <tt>pflog0</tt>. Usage instructions are:
+<PRE># gpioflicker -h
+
+Usage: gpioflicker [options]
+ Options:
+  -f                foreground [off]
+  -d device         gpio device [/dev/gpio0]
+  -p pin            gpio pin [9]
+  -t milliseconds   minimum period to keep LED active [100]
+  -i interface      network interface [pflog0]
+  -n                don't monopolize gpio device
+  -r                invert LED behavior
+  -P                write pidfile [off]
+  -B basename       pidfile basename (implies -P) [gpioflicker]
+  -I {0|1}          initial state of gpio pin
+ Signals:
+  USR1 activates gpio pin
+  USR2 deactivates gpio pin
+ Version: 0.3
+#
+</PRE>
+<P>
+The default values are suitable for a Soekris Net4501. For other
+systems, you may need to use the <tt>-d</tt> and <tt>-p</tt> switches,
+and possibly do some initialization with <tt>gpioctl</tt>. The tarball
+includes a man page.
+<P>
+Here comes the download link:
+<A CLASS="lk" HREF="gpioflicker-0.3.tar.gz">gpioflicker-0.3.tar.gz</A> (about 4kB).
+<P>
+(Older versions:
+<A CLASS="lk" HREF="gpioflicker-0.2.tar.gz">gpioflicker-0.2.tar.gz</A>,
+<A CLASS="lk" HREF="gpioflicker-0.1.tar.gz">gpioflicker-0.1.tar.gz</A>.)
+<P>
+Kudos to Alexander Yurchenko (grange@) for the GPIO framework!
+</BODY>
+</HTML>
