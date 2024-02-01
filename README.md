@@ -1,6 +1,6 @@
 # GPIOFLICKER
 
-This is my original OpenBSD gpioflicker code, relocated to Github ...
+This is my original OpenBSD gpioflicker code from 2004, relocated to Github ...
 
 ````
 GPIOFLICKER(8)                                                  GPIOFLICKER(8)
